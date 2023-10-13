@@ -1,9 +1,8 @@
 import mouse
 import keyboard
 import pytesseract
-import pyscreenshot
 import pyperclip
-from PIL import Image
+from PIL import Image, ImageGrab
 
 
 def capture_window_area(rectangle: tuple) -> Image:
@@ -12,7 +11,7 @@ def capture_window_area(rectangle: tuple) -> Image:
     :rectangle: A tuple containing the coordinates of the window area.
     :return: An Image object containing the window area.
     """
-    return pyscreenshot.grab(bbox=rectangle)
+    return ImageGrab.grab(bbox=rectangle)
 
 
 def get_text_from_image(image: Image, py_tess_path: str) -> str:

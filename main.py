@@ -13,7 +13,12 @@ from stateManager.types import WindowSizes, MainWindowTabs
 
 def main():
     tessPath = poorMansEnv("tessPath")
-    myManager = StateManager()
+    myManager = StateManager({
+        "afterFunctionActions": [
+            lambda: sleep(1), lambda: print("done")
+        ] 
+    })
+
 
     out = facetsWindowHandler.check_if_duplicate(tessPath, WindowSizes.large, myManager)
 

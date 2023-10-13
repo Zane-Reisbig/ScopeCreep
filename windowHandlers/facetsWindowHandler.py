@@ -26,27 +26,29 @@ def check_if_duplicate(
     :return: True if the current claim is a duplicate, False otherwise
     """
 
-    if stateManager is not None:
-        if currentState := stateManager.check_if_state_exists(
-            "isCurrentClaimDuplicate"
-        ):
-            if currentState[1]:
-                return True
-
     config_file = os.path.join(os.path.dirname(__file__), "config.json")
     with open(config_file, "r") as f:
         config = json.load(f)
-
-    if stateManager is not None:
-        stateManager.add_or_update_state(
-            "activeMainWindowTab", MainWindowTabs.duplicate.value
-        )
 
     activate_line_item_tab(windowSize)
     duplicate_claim_text = screenReading.get_text_from_rectangle(
         config[windowSize.value]["duplicateStaticAreaLocation"],
         pytesspath,
     )
+    
+    if stateManager is not None:
+        if (list := stateManager.check_if_state_exists("afterFunctionActions")):
+            stateManager._interpret_and_call_functionType_list(list[1])
+
+        if currentState := stateManager.check_if_state_exists(
+            "isCurrentClaimDuplicate"
+        ):
+            if currentState[1]:
+                return True
+
+        stateManager.add_or_update_state(
+            "activeMainWindowTab", MainWindowTabs.duplicate.value
+        )
 
     return duplicate_claim_text == "CDD _ Definite Duplicate Claim\n"
 
@@ -75,9 +77,13 @@ def activate_line_item_tab(windowSize: WindowSizes, stateManager: StateManager =
     mouse.click(button="left")
 
     if stateManager is not None:
+        if (list := stateManager.check_if_state_exists("afterFunctionActions")):
+            stateManager._interpret_and_call_functionType_list(list[1])
+
         stateManager.add_or_update_state(
             "activeMainWindowTab", MainWindowTabs.lineItem.value
         )
+
 
 
 def activate_duplicate_claim_tab(
@@ -107,6 +113,10 @@ def activate_duplicate_claim_tab(
     mouse.click(button="left")
 
     if stateManager is not None:
+        if (list := stateManager.check_if_state_exists("afterFunctionActions")):
+            stateManager._interpret_and_call_functionType_list(list[1])
+
         stateManager.add_or_update_state(
             "activeMainWindowTab", MainWindowTabs.duplicate.value
         )
+        

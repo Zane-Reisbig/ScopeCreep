@@ -91,8 +91,20 @@ def poorMansEnv(key):
         return None
 
 
-threader(line_item_test, 4)
-threader(state_manager_test, 4)
+# threader(line_item_test, 4)
+# threader(state_manager_test, 4)
 
-print_results(line_item_results, True)
-print_results(state_manager_results, True)
+# print_results(line_item_results, True)
+# print_results(state_manager_results, True)
+
+# ___________
+
+x = lambda: print("hello world")
+
+myState = StateManager(initialAction = {
+    "afterFunctionActions": [
+        sleep(1),
+    ] 
+})
+
+
