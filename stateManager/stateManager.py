@@ -19,10 +19,10 @@ class StateManager:
                     self.add_or_update_state(key, initalState[key])
             elif isinstance(initalState, list):
                 for item in initalState:
-                    self.add_or_update_state(item[0], item[1])
+                    self.add_or_update_state(item[0], item)
             elif isinstance(initalState, tuple):
                 for item in initalState:
-                    self.add_or_update_state(item[0], item[1])
+                    self.add_or_update_state(item[0], item)
             else:
                 raise TypeError(f"Type {type(initalState)} is not supported")
 
@@ -83,7 +83,7 @@ class StateManager:
 
         return self.state_dictonary.values()
 
-    def check_if_state_exists(self, stateName: str) -> Union[bool, object]:
+    def check_if_state_exists(self, stateName: str) -> bool|object:
         """
         Checks if a state exists
         :stateName: the name of the state
@@ -91,7 +91,21 @@ class StateManager:
         """
 
         if stateName in self.state_dictonary:
-            return True, self.state_dictonary[stateName]
+            return self.state_dictonary[stateName]
+        else:
+            return False
+    
+    def check_if_state_exists_and_invoke(self, stateName: str, *args, **kwargs) -> bool|object:
+        """
+        Checks if a state exists and invokes it if it does
+        :stateName: the name of the state
+        :*args: the args to pass to the state
+        :**kwargs: the kwargs to pass to the state
+        :return: a tuple containing a bool and the state
+        """
+
+        if stateName in self.state_dictonary:
+            return self.state_dictonary[stateName](*args, **kwargs)
         else:
             return False, False
     

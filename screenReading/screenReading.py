@@ -14,18 +14,18 @@ def capture_window_area(rectangle: tuple) -> Image:
     return ImageGrab.grab(bbox=rectangle)
 
 
-def get_text_from_image(image: Image, py_tess_path: str) -> str:
+def get_text_from_image(image: Image, pytessPath: str) -> str:
     """
     Gets the text from an Image object.
     :image: An Image object.
     :return: A string containing the text from the image.
     """
-    pytesseract.pytesseract.tesseract_cmd = py_tess_path
+    pytesseract.pytesseract.tesseract_cmd = pytessPath
     return pytesseract.pytesseract.image_to_string(image, config="--psm 7")
 
 
 def get_text_from_rectangle(
-    rectangle: tuple, py_tess_path: str, debug: object = None
+    rectangle: tuple, pytessPath: str, debug: object = None
 ) -> str:
     """
     Gets the text from a window area.
@@ -39,33 +39,33 @@ def get_text_from_rectangle(
     if debug:
         if debug["savePicture"]:
             image = capture_window_area(rectangle)
-            image.save(f"getTextFromRec{rectangle[0]}{rectangle[1]}{rectangle[2]}.png")
+            image.save(f"getTextFromRec{rectangle[0]}{rectangle}{rectangle[2]}.png")
 
     image = capture_window_area(rectangle)
-    return get_text_from_image(image, py_tess_path)
+    return get_text_from_image(image, pytessPath)
 
 
-def create_rectangle_from_two_clicks(debug: object) -> tuple:
+def create_rectangle_from_two_clicks(options: object) -> tuple:
     """
     Creates a rectangle from two clicks.
     :return: A tuple containing the coordinates of the rectangle.
-    :debug:? {
+    :options:? {
         "copyToClipboard": Bool,
     }
     """
 
     print("Click the top left corner of the rectangle.")
     mouse.wait()
-    current_position = mouse.get_position()
+    currentPosition = mouse.get_position()
     mouse.wait()
 
     print("Click the bottom right corner of the rectangle.")
     mouse.wait()
-    current_position2 = mouse.get_position()
+    currentPosition2 = mouse.get_position()
     mouse.wait()
 
-    if debug:
-        if debug["copyToClipboard"]:
+    if options:
+        if options["copyToClipboard"]:
             pyperclip.copy(
-                f"var = ({current_position[0]}, {current_position[1]}, {current_position2[0]}, {current_position2[1]})"
+                f"var = ({currentPosition[0]}, {currentPosition}, {currentPosition2[0]}, {currentPosition2})"
             )

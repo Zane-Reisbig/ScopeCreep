@@ -1,17 +1,23 @@
 import keyboard
 import mouse
 import pytesseract
-import PIL
 import os
 from time import sleep
+from PIL import Image, ImageGrab
 
 from screenReading import screenReading
 from windowHandlers import facetsWindowHandler
+from windowHandlers import nonStandardHandler
 from stateManager.stateManager import StateManager
 from stateManager.types import WindowSizes, MainWindowTabs
 
 
 def main():
+    #full screen vs code application
+    # obv you wouldnt have the bbox and you would use a saved image
+    # however for the sake of testing, and useability, this works
+    vsCodeFileTabRect = (36, 0, 70, 28)
+
     tessPath = poorMansEnv("tessPath")
     myManager = StateManager({
         "afterFunctionActions": [
@@ -19,15 +25,13 @@ def main():
         ] 
     })
 
-
-    out = facetsWindowHandler.check_if_duplicate(tessPath, WindowSizes.large, myManager)
-
-    sleep(1)
-    facetsWindowHandler.activate_duplicate_claim_tab(WindowSizes.large, myManager)
-    sleep(1)
-    facetsWindowHandler.activate_line_item_tab(WindowSizes.large, myManager)
-
-    print(out)
+    found = nonStandardHandler.center_on_image(
+        screenReading.capture_window_area(vsCodeFileTabRect),
+        click=True,
+        options={"returnCoords": True}
+    )
+    
+    print(found)
 
 
 def getRect():
@@ -49,3 +53,4 @@ def poorMansEnv(key):
 
 
 main()
+# getRect()

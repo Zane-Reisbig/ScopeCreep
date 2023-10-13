@@ -38,12 +38,12 @@ def check_if_duplicate(
     
     if stateManager is not None:
         if (list := stateManager.check_if_state_exists("afterFunctionActions")):
-            stateManager._interpret_and_call_functionType_list(list[1])
+            stateManager._interpret_and_call_functionType_list(list)
 
         if currentState := stateManager.check_if_state_exists(
             "isCurrentClaimDuplicate"
         ):
-            if currentState[1]:
+            if currentState:
                 return True
 
         stateManager.add_or_update_state(
@@ -78,7 +78,7 @@ def activate_line_item_tab(windowSize: WindowSizes, stateManager: StateManager =
 
     if stateManager is not None:
         if (list := stateManager.check_if_state_exists("afterFunctionActions")):
-            stateManager._interpret_and_call_functionType_list(list[1])
+            stateManager._interpret_and_call_functionType_list(list)
 
         stateManager.add_or_update_state(
             "activeMainWindowTab", MainWindowTabs.lineItem.value
@@ -114,7 +114,7 @@ def activate_duplicate_claim_tab(
 
     if stateManager is not None:
         if (list := stateManager.check_if_state_exists("afterFunctionActions")):
-            stateManager._interpret_and_call_functionType_list(list[1])
+            stateManager._interpret_and_call_functionType_list(list)
 
         stateManager.add_or_update_state(
             "activeMainWindowTab", MainWindowTabs.duplicate.value
