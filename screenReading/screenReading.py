@@ -9,7 +9,7 @@ from PIL import Image
 def capture_window_area(rectangle: tuple) -> Image:
     """
     Captures a window area and returns it as an Image object.
-    :param rectangle: A tuple containing the coordinates of the window area.
+    :rectangle: A tuple containing the coordinates of the window area.
     :return: An Image object containing the window area.
     """
     return pyscreenshot.grab(bbox=rectangle)
@@ -18,7 +18,7 @@ def capture_window_area(rectangle: tuple) -> Image:
 def get_text_from_image(image: Image, py_tess_path: str) -> str:
     """
     Gets the text from an Image object.
-    :param image: An Image object.
+    :image: An Image object.
     :return: A string containing the text from the image.
     """
     pytesseract.pytesseract.tesseract_cmd = py_tess_path
@@ -30,10 +30,10 @@ def get_text_from_rectangle(
 ) -> str:
     """
     Gets the text from a window area.
-    :param rectangle: A tuple containing the coordinates of the window area.
+    :rectangle: A tuple containing the coordinates of the window area.
     :return: A string containing the text from the window area.
-    :op debug: {
-        "savePicture": Bool,
+    :debug:? {
+        "savePicture": bool,
     }
 
     """
@@ -50,7 +50,7 @@ def create_rectangle_from_two_clicks(debug: object) -> tuple:
     """
     Creates a rectangle from two clicks.
     :return: A tuple containing the coordinates of the rectangle.
-    :op debug: {
+    :debug:? {
         "copyToClipboard": Bool,
     }
     """

@@ -15,13 +15,15 @@ def check_if_duplicate(
 ) -> bool:
     """
     Checks if the current claim is a duplicate
-    :facets_handle: the handle to the facets window
-    :?stateManager?: the state manager
-    ___
-    :stateKeys used: {
-        "activeMainWindowTab",
-        "isCurrentClaimDuplicate",
-    }
+    :pytesspath: the path to pytesseract
+    :windowSize: the size of desktop monitor
+                - config in types.py
+    :stateManager:? the state manager
+        :stateKeys used: {
+            "activeMainWindowTab",
+            "isCurrentClaimDuplicate",
+        }
+    :return: True if the current claim is a duplicate, False otherwise
     """
 
     if stateManager is not None:
@@ -44,22 +46,21 @@ def check_if_duplicate(
     duplicate_claim_text = screenReading.get_text_from_rectangle(
         config[windowSize.value]["duplicateStaticAreaLocation"],
         pytesspath,
-        # debug={"savePicture": True},
     )
 
-    # print(duplicate_claim_text)
     return duplicate_claim_text == "CDD _ Definite Duplicate Claim\n"
 
 
 def activate_line_item_tab(windowSize: WindowSizes, stateManager: StateManager = None):
     """
     Activates the line item tab
-    :facets_handle: the handle to the facets window
-    :?stateManager?: the state manager
-    ___
-    :stateKeys used: {
-        "activeMainWindowTab",
-    }
+    :windowSize: the size of desktop monitor
+                - config in types.py
+    :stateManager:? the state manager
+        :stateKeys used: {
+            "activeMainWindowTab",
+        }
+    :return: None
     """
     config_file = os.path.join(os.path.dirname(__file__), "config.json")
     with open(config_file, "r") as f:
@@ -84,7 +85,13 @@ def activate_duplicate_claim_tab(
 ):
     """
     Activates the duplicate claim tab
-    :facets_handle: the handle to the facets window
+    :windowSize: the size of desktop monitor
+                - config in types.py
+    :stateManager:? the state manager
+        :stateKeys used: {
+            "activeMainWindowTab",
+        }
+    :return: None
 
     """
     config_file = os.path.join(os.path.dirname(__file__), "config.json")
