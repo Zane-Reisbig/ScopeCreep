@@ -9,10 +9,10 @@ class StateManager:
         :initalState: the inital keys and values to add to the state manager
         :return: None
         """
-        
-        
+
         self.state_dictonary = {}
         self.id = uuid.uuid4()
+        
         if initalState is not None:
             if isinstance(initalState, dict):
                 for key in initalState:
@@ -134,13 +134,12 @@ class StateManager:
         else:
             return None
 
-    def _interpret_and_call_functionType_list(self, list):
+    def _call_functionType_list(self, list):
         """
         !This is an internal method!
-        Interprets and calls all the functions in a list
+        Calls all the functions in a list, thats it
         :list: the list of functions to interpret and call
         :return: None
         """
-        
         for func in list:
             func()

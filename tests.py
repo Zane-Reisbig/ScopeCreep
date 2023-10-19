@@ -111,6 +111,10 @@ def state_manager_callable_state_sleep_test():
     else:
         state_manager_callable_state_sleep_results.append(False)
 
+def image_matches_known_active_state_test():
+    global image_matches_known_active_state_results
+    
+    
 
 
 def threader(function, runAmount):
@@ -145,29 +149,46 @@ def poorMansEnv(key):
                 return line.split("=")[1].strip()
         return None
 
-# line_item_results = []
+
+def startup():
+    screenReading.capture_window_area(
+        screenReading.create_rectangle_from_two_clicks(),
+        {"savePicture": True, "savePictureName": "test.png"},
+    )
+    os._exit(0)
+
+line_item_results = []
+
 state_manager_results = []
 state_manager_callable_state_printMe_results = []
 state_manager_callable_state_sleep_results = []
 state_manager_inital_state_lineItem_results = []
 state_manager_inital_state_duplicate_results = []
 
+image_matches_known_active_state_results = []
+
 total_tests = 0
 passed_tests = 0
 
+if 1: startup()
+
+
 # threader(line_item_test, 4)
-threader(state_manager_test, 4)
-threader(state_manager_callable_state_printMe_test, 4)
-threader(state_manager_callable_state_sleep_test, 4)
-threader(state_manager_inital_state_lineItem_test, 4)
-threader(state_manager_inital_state_duplicate_test, 4)
+# threader(state_manager_test, 4)
+# threader(state_manager_callable_state_printMe_test, 4)
+# threader(state_manager_callable_state_sleep_test, 4)
+# threader(state_manager_inital_state_lineItem_test, 4)
+# threader(state_manager_inital_state_duplicate_test, 4)
+threader(image_matches_known_active_state_test, 4)
 
 # print_results(line_item_results, True)
-print_results(state_manager_results, True)
-print_results(state_manager_callable_state_printMe_results, True)
-print_results(state_manager_callable_state_sleep_results, True)
-print_results(state_manager_inital_state_lineItem_results, True)
-print_results(state_manager_inital_state_duplicate_results, True)
+# print_results(state_manager_results, True)
+# print_results(state_manager_callable_state_printMe_results, True)
+# print_results(state_manager_callable_state_sleep_results, True)
+# print_results(state_manager_inital_state_lineItem_results, True)
+# print_results(state_manager_inital_state_duplicate_results, True)
+
+
 
 print(f"Total Tests: {total_tests}")
 print(f"Passed Tests: {passed_tests}")

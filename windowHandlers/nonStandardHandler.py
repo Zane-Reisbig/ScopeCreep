@@ -1,19 +1,16 @@
 import PIL.Image as Image
 import pyautogui as pag
+from options import Options
 
 
-def center_on_image(image: Image, click: bool = None, options: object = None) -> bool|tuple:
+def center_on_image(image: Image, click: bool = None, options: Options = None) -> bool|tuple:
     """
     Centers the mouse on the anchor of an image
     :param image: the image to center on
     :param click:? whether or not to click on the anchor
-    :param options:? {
-        "confidence": float = 0.8,
-        "returnCoords": bool = False,
-    }
-    :return: default - whether or not the image was found
-             click                  = True - whether or not the image was found and clicked
-             options["returnCoords"]= True - the coordinates of the image 
+    :param options:? options to modify and customize behavior
+                    - see options.py 
+    :return: bool|tuple
     """
     if options is None:
         options = {"confidence": 0.8, "returnCoords": False}
@@ -23,19 +20,13 @@ def center_on_image(image: Image, click: bool = None, options: object = None) ->
         options["returnCoords"] = False
 
     
-    hasCV2 = False
     try:
         import cv2
-        hasCV2 = True
+        x, y = pag.locateCenterOnScreen(image, grayscale=True, confidence=options["confidence"])
     except:
         print("OpenCV is not installed, cannot use 'confidence' option")
-        
-    if hasCV2:
-        x, y = pag.locateCenterOnScreen(image, grayscale=True, confidence=options["confidence"])
-    else:
         x, y = pag.locateCenterOnScreen(image, grayscale=True)
-
-    
+        
     if x is None or y is None:
         return False
 
