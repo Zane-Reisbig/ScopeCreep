@@ -4,9 +4,14 @@ import pytesseract
 import pyperclip
 import pyautogui
 
-from options import TextFromImageOptions, RectangleFromTwoClicksOptions, TextFromRectangleOptions
+from options import (
+    TextFromImageOptions,
+    RectangleFromTwoClicksOptions,
+    TextFromRectangleOptions,
+)
 
 from PIL import Image, ImageGrab
+
 # from options import textFromImageOptions, textFromRectangleOptions, rectangleFromTwoClicksOptions
 
 
@@ -26,6 +31,7 @@ def capture_window_area(rectangle: tuple, options: TextFromImageOptions) -> Imag
             image.save(f"getTextFromRec{rectangle[0]}{rectangle}{rectangle[2]}.png")
     return ImageGrab.grab(bbox=rectangle)
 
+
 def _get_config(options: object, key: str, default) -> object:
     """
     Gets a config value from the options object.
@@ -39,7 +45,10 @@ def _get_config(options: object, key: str, default) -> object:
             return options[key]
     return default
 
-def get_text_from_image(image: Image, pytessPath: str, options: TextFromImageOptions = None) -> str:
+
+def get_text_from_image(
+    image: Image, pytessPath: str, options: TextFromImageOptions = None
+) -> str:
     """
     Gets the text from an Image object.
     :image: An Image object.
@@ -92,24 +101,22 @@ def create_rectangle_from_two_clicks(options: RectangleFromTwoClicksOptions) -> 
     copyToClipboard = _get_config(options, "copyToClipboard", False)
     if copyToClipboard:
         pyperclip.copy(
-            f"var = ({currentPosition[0]}, {currentPosition}, {currentPosition2[0]}, {currentPosition2})"
+            f"var = ({currentPosition[0]}, {currentPosition[0]}, {currentPosition2[0]}, {currentPosition2[0]})"
         )
 
-def image_matches_known_active_window_state(activeImage: Image, currentWindowCoords: tuple):
+
+def image_matches_known_active_window_state(
+    activeImage: Image, currentWindowCoords: tuple
+):
     """
     if window cannot be verifed thru code whether pyautogui, pywinauto or other
     last resort is to take a screenshot of an "anchor" state while the window is
     active. Then compare that image to the current window image. If they match
     then the window is active. (in theroy)
-    
+
     :activeImage: Image object of the known active state
     :currentWindowCoords: tuple of the current window coordinates, matching the activeImage
     """
-    
+
     currentWindowImage = capture_window_area(currentWindowCoords)
     return pyautogui.locate(activeImage, currentWindowImage, confidence=0.9)
-
-
-
-    
-    
