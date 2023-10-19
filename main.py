@@ -13,24 +13,22 @@ from stateManager.types import WindowSizes, MainWindowTabs
 
 
 def main():
-    #full screen vs code application
+    # full screen vs code application
     # obv you wouldnt have the bbox and you would use a saved image
     # however for the sake of testing, and useability, this works
     vsCodeFileTabRect = (36, 0, 70, 28)
 
     tessPath = poorMansEnv("tessPath")
-    myManager = StateManager({
-        "afterFunctionActions": [
-            lambda: sleep(1), lambda: print("done")
-        ] 
-    })
+    myManager = StateManager(
+        {"afterFunctionActions": [lambda: sleep(1), lambda: print("done")]}
+    )
 
     found = nonStandardHandler.center_on_image(
         screenReading.capture_window_area(vsCodeFileTabRect),
         click=True,
-        options={"returnCoords": True}
+        options={"returnCoords": True},
     )
-    
+
     print(found)
 
 
