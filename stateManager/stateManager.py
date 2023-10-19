@@ -3,7 +3,7 @@ import uuid
 
 
 class StateManager:
-    def __init__(self, initalState:object = None):
+    def __init__(self, initalState: object = None):
         """
         Creates a state manager
         :initalState: the inital keys and values to add to the state manager
@@ -12,7 +12,7 @@ class StateManager:
 
         self.state_dictonary = {}
         self.id = uuid.uuid4()
-        
+
         if initalState is not None:
             if isinstance(initalState, dict):
                 for key in initalState:
@@ -26,21 +26,19 @@ class StateManager:
             else:
                 raise TypeError(f"Type {type(initalState)} is not supported")
 
-        
-
     def report_id(self):
         """
         Returns the id of the state manager
         I still don't believe python is making different objects
         """
-        
+
         return self.id
 
     def add_or_update_state(self, stateName: str, state: object):
         """
         Adds or updates a state
         """
-        
+
         if stateName in self.state_dictonary:
             if isinstance(self.state_dictonary[stateName], list):
                 self.state_dictonary[stateName].append(state)
@@ -49,14 +47,11 @@ class StateManager:
         else:
             self.state_dictonary[stateName] = state
 
-
     def remove_state(self, stateName: str):
-        
         if stateName in self.state_dictonary:
             del self.state_dictonary[stateName]
         else:
             raise KeyError(f"State {stateName} does not exist")
-
 
     def get_state(self, state_name: str) -> object:
         """
@@ -64,7 +59,7 @@ class StateManager:
         :state_name: the name of the state
         :return: the state object
         """
-        
+
         return self.state_dictonary[state_name]
 
     def get_state_names(self) -> list:
@@ -72,7 +67,7 @@ class StateManager:
         Returns a list of all the state names
         :return: a list of all the state names (keys)
         """
-        
+
         return self.state_dictonary.keys()
 
     def get_state_values(self) -> list:
@@ -83,7 +78,7 @@ class StateManager:
 
         return self.state_dictonary.values()
 
-    def check_if_state_exists(self, stateName: str) -> bool|object:
+    def check_if_state_exists(self, stateName: str) -> bool | object:
         """
         Checks if a state exists
         :stateName: the name of the state
@@ -94,8 +89,10 @@ class StateManager:
             return self.state_dictonary[stateName]
         else:
             return False
-    
-    def check_if_state_exists_and_invoke(self, stateName: str, *args, **kwargs) -> bool|object:
+
+    def check_if_state_exists_and_invoke(
+        self, stateName: str, *args, **kwargs
+    ) -> bool | object:
         """
         Checks if a state exists and invokes it if it does
         :stateName: the name of the state
@@ -108,8 +105,10 @@ class StateManager:
             return self.state_dictonary[stateName](*args, **kwargs)
         else:
             return False, False
-    
-    def interpret_callable_state(self, stateName: str, *args, **kwargs) -> object|None:
+
+    def interpret_callable_state(
+        self, stateName: str, *args, **kwargs
+    ) -> object | None:
         """
         Interprets a callable state
         :stateName: the name of the state
@@ -118,17 +117,17 @@ class StateManager:
         :return: the result of the callable state
                 if the key does not exist, None is returned
         _______________________
-        WARNING WARNING WARNING 
-        
+        WARNING WARNING WARNING
+
         THIS IS NOT SAFE
         THIS IS USING EVAL
         THIS WILL DO WHAT EVER YOU TELL IT TO DO
         DEAL ACCORDINGLY
-        
-        WARNING WARNING WARNING 
+
+        WARNING WARNING WARNING
         -----------------------
         """
-        
+
         if stateName in self.state_dictonary:
             return eval(self.state_dictonary[stateName])(*args, **kwargs)
         else:

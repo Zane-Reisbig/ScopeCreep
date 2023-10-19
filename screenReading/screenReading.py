@@ -4,7 +4,7 @@ import pytesseract
 import pyperclip
 import pyautogui
 
-from options import (
+from .options import (
     TextFromImageOptions,
     RectangleFromTwoClicksOptions,
     TextFromRectangleOptions,
@@ -15,7 +15,9 @@ from PIL import Image, ImageGrab
 # from options import textFromImageOptions, textFromRectangleOptions, rectangleFromTwoClicksOptions
 
 
-def capture_window_area(rectangle: tuple, options: TextFromImageOptions) -> Image:
+def capture_window_area(
+    rectangle: tuple, options: TextFromImageOptions = None
+) -> Image:
     """
     Captures a window area and returns it as an Image object.
     :rectangle: A tuple containing the coordinates of the window area.
@@ -80,7 +82,9 @@ def get_text_from_rectangle(
     return get_text_from_image(image, pytessPath)
 
 
-def create_rectangle_from_two_clicks(options: RectangleFromTwoClicksOptions) -> tuple:
+def create_rectangle_from_two_clicks(
+    options: RectangleFromTwoClicksOptions = None,
+) -> tuple:
     """
     Creates a rectangle from two clicks.
     :return: A tuple containing the coordinates of the rectangle.
